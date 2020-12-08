@@ -8,7 +8,9 @@ export class TasksController {
 
   @Get()
   getAllTasks() {
+    console.log(this.tasksService.getAllTasks());
     return this.tasksService.getAllTasks();
+
   }
 
 }
