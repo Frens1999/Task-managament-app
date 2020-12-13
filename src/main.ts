@@ -6,7 +6,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 async function bootstrap() {
   const serverConfig = config.get('server');
   const logger = new Logger('bootstrap');
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {cors: true});
 
   const options = new DocumentBuilder().setTitle('Task Management Api').setDescription('Task App Api').setVersion('1.0.0').addBearerAuth().build();
   const document = SwaggerModule.createDocument(app, options);
