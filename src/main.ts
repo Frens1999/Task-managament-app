@@ -8,7 +8,7 @@ async function bootstrap() {
   const logger = new Logger('bootstrap');
   const app = await NestFactory.create(AppModule);
 
-  const options = new DocumentBuilder().setTitle('Task Management Api').setDescription('Task App Api').setVersion('1.0.0').build();
+  const options = new DocumentBuilder().setTitle('Task Management Api').setDescription('Task App Api').setVersion('1.0.0').addBearerAuth().build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
 

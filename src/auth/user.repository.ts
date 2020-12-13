@@ -22,7 +22,7 @@ export class UserRepository extends Repository<User> {
                 throw new ConflictException('Username already exists');
 
             } else {
-                throw new InternalServerErrorException();
+                throw new InternalServerErrorException(error.stack);
             }
         }
 

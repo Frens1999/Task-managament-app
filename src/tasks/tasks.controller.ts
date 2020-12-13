@@ -11,7 +11,7 @@ import { User } from 'src/auth/user.entity';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { Logger } from '@nestjs/common';
 import { stringify } from 'querystring';
-
+import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 
 @Controller('tasks')
 @UseGuards(AuthGuard())
@@ -20,6 +20,7 @@ export class TasksController {
   constructor(private tasksService: TasksService) { }
 
   @Get()
+  @ApiBearerAuth()
   getTasks(@Query(ValidationPipe) filterDto: GetTasksFilterDto,
     @GetUser() user: User): Promise<Task[]> {
     this.logger.verbose(`User "${user.username} retrieving all tasks.Filters: ${JSON.stringify(filterDto)}"`)
@@ -27,6 +28,7 @@ export class TasksController {
   }
 
   @Get('/:id')
+  @ApiBearerAuth()
   getTaskById(@Param('id', ParseIntPipe) id: number,
     @GetUser() user: User): Promise<Task> {
     return this.tasksService.getTaskById(id, user);
@@ -34,6 +36,7 @@ export class TasksController {
   }
 
   @Post()
+  @ApiBearerAuth()
   @UsePipes(ValidationPipe)
   createTask(@Body() createTaskDto: CreateTaskDto,
     @GetUser() user: User,
@@ -43,6 +46,10 @@ export class TasksController {
   }
 
   @Patch('/:id/status')
+  @ApiResponse({ status: 401, description: 'Not authorised!' })
+  @ApiResponse({ status: 403, description: 'Forbidden!' })
+  @ApiResponse({ status: 404, description: 'Not found!' })
+  @ApiBearerAuth()
   updateTaskStatus(
     @Param('id', ParseIntPipe) id: number,
     @Body('status', TaskStatusValidationPipe) status: TaskStatus,
@@ -51,6 +58,7 @@ export class TasksController {
     return this.tasksService.updateTaskStatus(id, status, user);
   }
   @Delete('/:id')
+  @ApiBearerAuth()
   deleteTask(@Param('id', ParseIntPipe) id: number,
     @GetUser() user: User
   ): Promise<void> {
