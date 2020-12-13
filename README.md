@@ -25,7 +25,7 @@
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-<h1>Documentation:</h1>
+## Documentation:
 <br>
 https://frs-nestjs-task-management.herokuapp.com/api
 
